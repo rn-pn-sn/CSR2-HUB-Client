@@ -5,10 +5,10 @@
     "display": "fullscreen",
     "background_color": "#000000",
     "theme_color": "#000",
-    "description": "Test description",
+    "description": "DonnaLoader",
     "icons": [{
-      "src": "TemplateData/icons/unity-logo-dark.png",
-      "sizes": "144x144",
+      "src": "TemplateData/hub-logo.png",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }]
