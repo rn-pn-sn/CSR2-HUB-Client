@@ -28,10 +28,11 @@
     </div>
 
     <div id="start-overlay" class="overlay hidden">
-        <div class="overlay-content">
-        <button id="start-button" class="start-button">Tap for fullscreen</button>
-        </div>
+      <div class="overlay-content">
+        <div class="overlay-text">Tap anywhere to start</div>
+      </div>
     </div>
+
     <script>
       // existing registrations (serviceWorker) and element queries remain
       window.addEventListener("load", function () {
@@ -171,8 +172,10 @@
 
         // If not mobile, start immediately without requiring fullscreen
         if (!isMobile()) {
-          // start immediately
+          // show loading UI immediately
           startOverlay.classList.add('hidden');
+          loadingBar.style.display = "block";
+
           var script = document.createElement("script");
           script.src = loaderUrl;
           script.onload = () => {
@@ -188,6 +191,7 @@
           return;
         }
 
+
         // For mobile: show start overlay only if orientation is OK
         if (checkOrientationAndShowOverlay()) {
           startOverlay.classList.remove('hidden');
@@ -195,16 +199,75 @@
           startOverlay.classList.add('hidden');
         }
 
-        // Start button must be a user gesture to allow fullscreen and orientation lock
-        startButton.addEventListener('click', function (e) {
-          startUnityWithFullscreen();
-        });
+    // Start on any user gesture (tap/click/pointer) — but only when orientation overlay is hidden.
+    // This covers touchstart (mobile), pointerdown (modern), and click (fallback).
+    let started = false;
 
-        // Also allow tapping canvas to start if overlay hidden
-        canvas.addEventListener('click', function () {
-          if (!startOverlay.classList.contains('hidden')) return;
-          // if canvas tapped and start overlay hidden, do nothing (Unity already running)
-        });
+    function onFirstUserGesture(e) {
+      // ignore secondary gestures and gestures while orientation overlay is visible
+      if (started) return;
+      if (!checkOrientationAndShowOverlay()) return; // orientation overlay will be shown by this call if needed
+
+      // mark started and remove listeners immediately to ensure single user gesture
+      started = true;
+      removeGestureListeners();
+
+      // hide start overlay if present
+      if (startOverlay) startOverlay.classList.add('hidden');
+
+      // start Unity with fullscreen/orientation lock
+      startUnityWithFullscreen();
+    }
+
+    function removeGestureListeners() {
+      document.removeEventListener('touchstart', onFirstUserGesture, {passive: true});
+      document.removeEventListener('pointerdown', onFirstUserGesture);
+      document.removeEventListener('click', onFirstUserGesture);
+      // also remove from canvas just in case
+      canvas.removeEventListener('touchstart', onFirstUserGesture, {passive: true});
+      canvas.removeEventListener('pointerdown', onFirstUserGesture);
+      canvas.removeEventListener('click', onFirstUserGesture);
+    }
+
+    // Attach listeners when we want to allow starting (mobile + orientation ok)
+    function attachGestureListenersIfNeeded() {
+      // If already started or not mobile, nothing to do
+      if (started || !isMobile()) return;
+
+      // Only attach if orientation is OK (overlay hidden)
+      if (checkOrientationAndShowOverlay()) {
+        // show the start overlay hint (optional)
+        if (startOverlay) startOverlay.classList.remove('hidden');
+
+        // attach listeners to document and canvas to catch any tap
+        document.addEventListener('touchstart', onFirstUserGesture, {passive: true});
+        document.addEventListener('pointerdown', onFirstUserGesture);
+        document.addEventListener('click', onFirstUserGesture);
+
+        canvas.addEventListener('touchstart', onFirstUserGesture, {passive: true});
+        canvas.addEventListener('pointerdown', onFirstUserGesture);
+        canvas.addEventListener('click', onFirstUserGesture);
+      } else {
+        // orientation not OK — ensure overlay visible and listeners removed
+        if (startOverlay) startOverlay.classList.add('hidden');
+        removeGestureListeners();
+      }
+    }
+
+    // call attachGestureListenersIfNeeded initially and on resize/orientation changes
+    // replace previous startButton/canvas listeners with this:
+    attachGestureListenersIfNeeded();
+
+    window.addEventListener('resize', function () {
+      var ok = checkOrientationAndShowOverlay();
+      if (ok && isMobile()) {
+        // allow starting when orientation becomes OK
+        attachGestureListenersIfNeeded();
+      } else {
+        // orientation not OK — remove start listeners
+        removeGestureListeners();
+      }
+    });
       }
     </script>
   </body>

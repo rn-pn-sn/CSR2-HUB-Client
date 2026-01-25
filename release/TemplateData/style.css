@@ -1,29 +1,66 @@
 body { padding: 0; margin: 0 }
-#unity-container { position: fixed; width: 100%; height: 100%; }
-#unity-canvas { width: 100%; height: 100%; background: #000000 }
-#unity-loading-bar { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: none }
-#unity-logo { width: 512px; height: 512px; background: url('hub-logo.png') no-repeat center }
-#unity-progress-bar-empty { margin-left: auto; margin-right: auto; width: 141px; height: 18px; margin-top: 10px; background: url('progress-bar-empty-dark.png') no-repeat center }
-#unity-progress-bar-full { width: 0%; height: 18px; margin-top: 10px; background: url('progress-bar-full-dark.png') no-repeat center }
-#unity-warning { position: absolute; left: 50%; top: 5%; transform: translate(-50%); background: white; padding: 10px; display: none }
 
-/* Overlays for orientation and start */
-.overlay {
-  position: fixed;
+/* Ensure loading UI is above the canvas */
+#unity-container { position: fixed; width: 100%; height: 100%; top: 0; left: 0; }
+
+/* Canvas sits below UI */
+#unity-canvas {
+  position: absolute;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0,0,0,0.75);
-  color: #fff;
-  text-align: center;
-  padding: 20px;
-  box-sizing: border-box;
+  background: #000000;
+  z-index: 0;
 }
+
+/* Loading UI above canvas */
+#unity-loading-bar {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: none; /* shown by JS */
+  z-index: 10;
+  pointer-events: none;
+  text-align: center;
+  color: #fff;
+}
+
+/* Logo and progress styling */
+#unity-logo {
+  width: 128px;
+  height: 128px;
+  margin: 0 auto 12px;
+  background: url('TemplateData/hub-logo.png') no-repeat center;
+  background-size: contain;
+}
+
+/* Progress bar container and fill */
+#unity-progress-bar-empty {
+  margin-left: auto;
+  margin-right: auto;
+  width: 220px;
+  height: 18px;
+  background: url('TemplateData/progress-bar-empty-dark.png') no-repeat center;
+  background-size: contain;
+}
+#unity-progress-bar-full {
+  width: 0%;
+  height: 18px;
+  background: url('TemplateData/progress-bar-full-dark.png') no-repeat left center;
+  background-size: contain;
+  z-index: 11;
+}
+
+/* Warning above everything */
+#unity-warning { position: absolute; left: 50%; top: 5%; transform: translateX(-50%); z-index: 20; }
+
+/* Overlays keep highest z-index */
+.overlay { z-index: 9999; }
+
+/* Blur class should not block loading UI */
+.blurred { filter: blur(4px); pointer-events: none; }
 
 .overlay.hidden { display: none; }
 
@@ -50,10 +87,4 @@ body { padding: 0; margin: 0 }
   background: #1e88e5;
   color: white;
   cursor: pointer;
-}
-
-/* Blur background when overlay active */
-.blurred {
-  filter: blur(4px);
-  pointer-events: none;
 }

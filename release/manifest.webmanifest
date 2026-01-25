@@ -1,8 +1,9 @@
 {
     "name": "CSR2-HUB-Web",
-    "short_name": "CSR2-HUB-Web",
+    "short_name": "CSR2-HUB",
     "start_url": "index.html",
     "display": "fullscreen",
+	"orientation": "landscape",
     "background_color": "#000000",
     "theme_color": "#000",
     "description": "DonnaLoader",
@@ -12,4 +13,4 @@
       "type": "image/png",
       "purpose": "any maskable"
     }]
-  }
+}
