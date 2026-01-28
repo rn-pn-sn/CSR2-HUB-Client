@@ -1,4 +1,4 @@
-const BUILD_TIMESTAMP = "1769623294691";
+﻿const BUILD_TIMESTAMP = "1769624960556";
 const effectiveTimestamp = BUILD_TIMESTAMP || String(Date.now());
 const cacheName = "ABS-CSR2-HUB-Web-" + effectiveTimestamp;
 
@@ -35,13 +35,6 @@ self.addEventListener('install', function (e) {
 });
 
 self.addEventListener('activate', function (e) {
-  console.log('[Service Worker] Build');
-  self.clients.matchAll().then(clients => {
-    clients.forEach(client => {
-      client.postMessage({ type: 'BUILD_TIMESTAMP', ts: effectiveTimestamp });
-    });
-  });
-  
   console.log('[Service Worker] Activate');
   e.waitUntil((async () => {
     const keys = await caches.keys();

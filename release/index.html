@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en-us">
   <head>
     <meta charset="utf-8">
@@ -26,11 +26,7 @@
         }
       });
 	  
-	  navigator.serviceWorker.addEventListener('message', function(event) {
-        if (event.data && event.data.type === 'BUILD_TIMESTAMP') {
-          window.BUILD_TIMESTAMP = event.data.ts;
-        }
-      });
+	  window.BUILD_TIMESTAMP = 1769624960556;
 
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
