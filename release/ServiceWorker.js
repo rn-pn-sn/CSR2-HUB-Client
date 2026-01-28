@@ -1,9 +1,9 @@
 const cacheName = "ABS-CSR2-HUB-Web-1.3.0";
 const contentToCache = [
-    "Build/Builds.loader.js",
-    "Build/Builds.framework.js",
-    "Build/Builds.data",
-    "Build/Builds.wasm",
+    "Build/release.loader.js",
+    "Build/release.framework.js",
+    "Build/release.data",
+    "Build/release.wasm",
     "TemplateData/style.css"
 
 ];
