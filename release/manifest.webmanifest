@@ -1,10 +1,8 @@
 {
     "name": "CSR2.HUB",
     "short_name": "CSR2.HUB",
-    "id": "/",
-    "start_url": "/index.html",
-    "scope": "/",
-    "display": "standalone",
+    "start_url": "index.html",
+    "display": "fullscreen",
     "orientation": "landscape",
     "background_color": "#000000",
     "theme_color": "#000000",
@@ -15,22 +13,10 @@
             "sizes": "256x256",
             "type": "image/png",
             "purpose": "any maskable"
-        },
-        {
-            "src": "TemplateData/hub-logo-192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "any maskable"
-        },
-        {
-            "src": "TemplateData/hub-logo-512.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "any maskable"
         }
     ],
     "android": {
-        "display": "standalone",
+        "display": "fullscreen",
         "orientation": "landscape"
     }
 }
