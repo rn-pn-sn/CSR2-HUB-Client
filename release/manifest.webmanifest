@@ -3,20 +3,14 @@
     "short_name": "CSR2.HUB",
     "start_url": "index.html",
     "display": "fullscreen",
-    "orientation": "landscape",
+	"orientation": "landscape",
     "background_color": "#000000",
-    "theme_color": "#000000",
+    "theme_color": "#000",
     "description": "DonnaLoader",
-    "icons": [
-        {
-            "src": "TemplateData/hub-logo.png",
-            "sizes": "256x256",
-            "type": "image/png",
-            "purpose": "any maskable"
-        }
-    ],
-    "android": {
-        "display": "fullscreen",
-        "orientation": "landscape"
-    }
+    "icons": [{
+      "src": "TemplateData/hub-logo.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }]
 }
